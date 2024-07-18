@@ -2,6 +2,15 @@ import React from 'react';
 
 export const PERSONA_ICONS: Array<{ name: string; icon: React.ReactNode }> = [
   {
+    name: 'no_avatar',
+    icon: (
+      <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="21" cy="21" r="20.5" fill="white" stroke="#DED7D5" />
+        <line x1="6.14645" y1="35.6464" x2="35.1464" y2="6.64645" stroke="#DED7D5" />
+      </svg>
+    ),
+  },
+  {
     name: 'circle',
     icon: (
       <svg viewBox="0 0 500 500">
