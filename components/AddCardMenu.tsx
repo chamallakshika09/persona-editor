@@ -6,7 +6,12 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import { CardData, CardType } from '@/types/ui';
 import { useRef, useState } from 'react';
 
-export default function AddCardMenu({ cards, setCards }: { cards: CardData[]; setCards: (cards: CardData[]) => void }) {
+interface AddCardMenuProps {
+  cards: CardData[];
+  setCards: (cards: CardData[]) => void;
+}
+
+export default function AddCardMenu({ cards, setCards }: AddCardMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const openButtonRef = useRef<HTMLDivElement>(null);

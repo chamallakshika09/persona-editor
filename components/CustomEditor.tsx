@@ -22,13 +22,12 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 //   </div>
 // );
 
-export default function CustomEditor({
-  text,
-  handleTextChange,
-}: {
+interface CustomEditorProps {
   text: string;
   handleTextChange: (text: string) => void;
-}) {
+}
+
+export default function CustomEditor({ text, handleTextChange }: CustomEditorProps) {
   return (
     <>
       {/* <CustomToolbar /> */}

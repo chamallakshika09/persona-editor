@@ -14,13 +14,11 @@ export default function ImageCard() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async () => {
     setError(null);
-    setLoading(true);
 
     if (!fileInputRef.current?.files) {
       setError('No file selected');
-      setLoading(false);
       return;
     }
 
@@ -28,9 +26,10 @@ export default function ImageCard() {
 
     if (!file.type.startsWith('image/')) {
       setError('Please select a valid image file');
-      setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     try {
       const newBlob = await upload(file.name, file, {
