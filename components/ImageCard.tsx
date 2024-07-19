@@ -7,11 +7,12 @@ import Image from 'next/image';
 import { upload } from '@vercel/blob/client';
 import Spinner from './Spinner';
 import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
-import { CardData, ColumnType } from '@/types/ui';
-import { usePersona } from '@/contexts/PersonaContext';
+import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
+import { useY } from 'react-yjs';
+import { yGetCardsForColumn } from '@/libs/yjsInstance';
 
 interface ImageCardProps {
-  card: CardData;
+  card: ColumnCardData;
   column: ColumnType;
 }
 
@@ -20,19 +21,13 @@ function ImageCard({ card, column }: ImageCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { setLeftColumnCards, setRightColumnCards } = usePersona();
+  const cards = yGetCardsForColumn(column).toArray();
 
-  const updateCardContent = useCallback(
-    (content: string) => {
-      const id = card.id;
-      if (column === 'left') {
-        setLeftColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
-      } else {
-        setRightColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
-      }
-    },
-    [card.id, column, setLeftColumnCards, setRightColumnCards]
-  );
+  const cardIndex = cards.findIndex((c) => c.get('id') === card.id);
+
+  const xContent = cards[cardIndex].get('content');
+
+  const displayContent = useY(cards[cardIndex].get('content'));
 
   const handleImageUpload = async () => {
     setError(null);
@@ -56,7 +51,8 @@ function ImageCard({ card, column }: ImageCardProps) {
         access: 'public',
         handleUploadUrl: '/api/image/upload',
       });
-      updateCardContent(newBlob.url);
+      xContent.delete(0, displayContent.length);
+      xContent.insert(0, newBlob.url);
     } catch (uploadError) {
       setError(`Failed to upload image: ${uploadError}`);
     } finally {
@@ -70,9 +66,9 @@ function ImageCard({ card, column }: ImageCardProps) {
 
   return (
     <Card height="h-[200px]">
-      {card.content ? (
+      {displayContent.length > 0 ? (
         <div className="relative w-full h-full">
-          <Image src={card.content} alt="Uploaded" layout="fill" objectFit="contain" />
+          <Image src={displayContent.toString()} alt="Uploaded" layout="fill" objectFit="contain" />
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center h-full gap-2">

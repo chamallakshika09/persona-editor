@@ -1,16 +1,21 @@
 import { PERSONA_ICONS } from '@/assets/PersonaIcons';
 import Card from './Card';
 import PersonaBadge from './PersonaBadge';
-import { usePersona } from '@/contexts/PersonaContext';
+import { useY } from 'react-yjs';
+import { yName, ySelectedAvatar, ySelectedColor } from '@/libs/yjsInstance';
 
 export default function NameCard() {
-  const { name, selectedAvatar, selectedColor } = usePersona();
+  const name = useY(yName).toString();
+  const selectedAvatar = useY(ySelectedAvatar).toString();
+  const selectedColor = useY(ySelectedColor).toString();
+
+  const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === selectedAvatar);
 
   return (
     <Card height="h-auto">
       <div className="flex gap-2 p-3">
         <PersonaBadge
-          icon={PERSONA_ICONS.find((icon) => icon.name === selectedAvatar)!.icon}
+          icon={foundAvatar?.icon}
           height="h-[48px]"
           divClasses="rounded-lg w-16 h-16 p-2"
           bgColor={selectedColor}

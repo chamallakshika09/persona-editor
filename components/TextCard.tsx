@@ -5,12 +5,13 @@ import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
 import CustomEditor from './CustomEditor';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { CardData, ColumnType } from '@/types/ui';
+import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
 import HtmlRenderer from './HtmlRenderer';
-import { usePersona } from '@/contexts/PersonaContext';
+import { useY } from 'react-yjs';
+import { yGetCardsForColumn } from '@/libs/yjsInstance';
 
 interface TextCardProps {
-  card: CardData;
+  card: ColumnCardData;
   column: ColumnType;
 }
 
@@ -18,22 +19,17 @@ function TextCard({ card, column }: TextCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
 
-  const { setLeftColumnCards, setRightColumnCards } = usePersona();
+  const cards = yGetCardsForColumn(column).toArray();
 
-  const updateCardContent = useCallback(
-    (content: string) => {
-      const id = card.id;
-      if (column === 'left') {
-        setLeftColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
-      } else {
-        setRightColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
-      }
-    },
-    [card.id, column, setLeftColumnCards, setRightColumnCards]
-  );
+  const cardIndex = cards.findIndex((c) => c.get('id') === card.id);
+
+  const xContent = cards[cardIndex].get('content');
+
+  const displayContent = useY(cards[cardIndex].get('content'));
 
   const handleTextChange = (value: string) => {
-    updateCardContent(value);
+    xContent.delete(0, displayContent.length);
+    xContent.insert(0, value);
   };
 
   useOutsideClick(editorRef, () => setIsEditing(false));
@@ -42,10 +38,10 @@ function TextCard({ card, column }: TextCardProps) {
     <Card height="h-auto" border={isEditing}>
       <div className="flex flex-col p-3 justify-center" onClick={() => setIsEditing(true)} ref={editorRef}>
         {isEditing ? (
-          <CustomEditor text={card.content} handleTextChange={handleTextChange} />
+          <CustomEditor text={displayContent.toString()} handleTextChange={handleTextChange} />
         ) : (
           <div className="text-sm text-textSecondary">
-            <HtmlRenderer htmlString={card.content} />
+            <HtmlRenderer htmlString={displayContent.toString()} />
           </div>
         )}
       </div>

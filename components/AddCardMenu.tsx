@@ -2,11 +2,11 @@ import AddCardIcon from '@/assets/icons/AddCard.icon';
 import ArrowDownIcon from '@/assets/icons/ArrowDown.icon';
 import ImageCardIcon from '@/assets/icons/ImageCard.icon';
 import TextCardIcon from '@/assets/icons/TextCard.icon';
-import { usePersona } from '@/contexts/PersonaContext';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { CardData, CardType, ColumnType } from '@/types/ui';
+import { yAddCard } from '@/libs/yjsInstance';
+import { CardType, ColumnType } from '@/types/ui';
 import { getNewCard } from '@/utils/cards';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface AddCardMenuProps {
   column: ColumnType;
@@ -17,21 +17,11 @@ export default function AddCardMenu({ column }: AddCardMenuProps) {
 
   const openButtonRef = useRef<HTMLDivElement>(null);
 
-  const { setLeftColumnCards, setRightColumnCards } = usePersona();
-
   useOutsideClick(openButtonRef, () => setIsMenuOpen(false));
 
-  const addCard = useCallback(
-    (type: CardType) => {
-      const newCard: CardData = getNewCard(type);
-      if (column === 'left') {
-        setLeftColumnCards((prevCards) => [...prevCards, newCard]);
-      } else {
-        setRightColumnCards((prevCards) => [...prevCards, newCard]);
-      }
-    },
-    [column, setLeftColumnCards, setRightColumnCards]
-  );
+  const addCard = (type: CardType) => {
+    yAddCard(column, getNewCard(type));
+  };
 
   return (
     <div className="relative group" ref={openButtonRef}>

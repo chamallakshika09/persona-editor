@@ -7,23 +7,33 @@ import CloseIcon from '@/assets/icons/Close.icon';
 import PersonaBadge from './PersonaBadge';
 import CheckIcon from '@/assets/icons/Check.icon';
 import { colors } from '@/data/colors';
-import { usePersona } from '@/contexts/PersonaContext';
+import { useY } from 'react-yjs';
+import {
+  yName,
+  ySelectedAvatar,
+  ySelectedColor,
+  ySetName,
+  ySetSelectedAvatar,
+  ySetSelectedColor,
+} from '@/libs/yjsInstance';
 
 interface QuickEditModalProps {
   onClose: () => void;
 }
 
 export default function QuickEditModal({ onClose }: QuickEditModalProps) {
-  const { name, setName, selectedAvatar, setSelectedAvatar, selectedColor, setSelectedColor } = usePersona();
+  const name = useY(yName).toString();
+  const selectedAvatar = useY(ySelectedAvatar).toString();
+  const selectedColor = useY(ySelectedColor).toString();
 
   const [localName, setLocalName] = useState(name);
   const [localAvatar, setLocalAvatar] = useState(selectedAvatar);
   const [localColor, setLocalColor] = useState(selectedColor);
 
   const handleSave = () => {
-    setName(localName);
-    setSelectedAvatar(localAvatar);
-    setSelectedColor(localColor);
+    ySetName(localName);
+    ySetSelectedAvatar(localAvatar);
+    ySetSelectedColor(localColor);
     onClose();
   };
 

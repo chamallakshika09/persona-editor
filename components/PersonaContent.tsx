@@ -1,11 +1,17 @@
 'use client';
 
 import NameCard from './NameCard';
-import { usePersona } from '@/contexts/PersonaContext';
 import CardColumn from './CardColumn';
+import { useY } from 'react-yjs';
+import { yLeftColumnCards, yRightColumnCards } from '@/libs/yjsInstance';
+import { convertObjArrToCardDataArr } from '@/utils/cards';
 
 export default function PersonaContent() {
-  const { leftColumnCards, rightColumnCards } = usePersona();
+  // const leftColumnCards = convertObjArrToCardDataArr(useY(yLeftColumnCards));
+  // const rightColumnCards = convertObjArrToCardDataArr(useY(yRightColumnCards));
+
+  const leftColumnCards = useY(yLeftColumnCards);
+  const rightColumnCards = useY(yRightColumnCards);
 
   return (
     <div className="bg-[#F3EEEC] w-full flex flex-row">

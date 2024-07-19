@@ -1,22 +1,20 @@
-import { CardData, ColumnType } from '@/types/ui';
+import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
 import AddCardMenu from './AddCardMenu';
 import CardFactory from './CardFactory';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 
 interface CardColumnProps {
-  cards: CardData[];
+  cards: ColumnCardData[];
   column: ColumnType;
 }
 
-function CardColumn({ cards, column }: CardColumnProps) {
+export default function CardColumn({ cards, column }: CardColumnProps) {
   return (
     <>
       {cards.map((card) => (
-        <CardFactory key={card.id} card={card} column={column} />
+        <CardFactory key={card.id.toString()} card={card} column={column} />
       ))}
       <AddCardMenu column={column} />
     </>
   );
 }
-
-export default memo(CardColumn);
