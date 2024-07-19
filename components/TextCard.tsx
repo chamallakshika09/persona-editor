@@ -15,8 +15,6 @@ interface TextCardProps {
 }
 
 function TextCard({ card, column }: TextCardProps) {
-  console.log('TextCard');
-
   const [isEditing, setIsEditing] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +29,7 @@ function TextCard({ card, column }: TextCardProps) {
         setRightColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
       }
     },
-    [card, column, setLeftColumnCards, setRightColumnCards]
+    [card.id, column, setLeftColumnCards, setRightColumnCards]
   );
 
   const handleTextChange = (value: string) => {

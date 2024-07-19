@@ -3,7 +3,7 @@
 import { PERSONA_ICONS } from '@/assets/PersonaIcons';
 import { colors } from '@/data/colors';
 import { createContext, Dispatch, SetStateAction, useContext, useState } from 'react';
-import { CardData, ColumnType } from '@/types/ui';
+import { CardData } from '@/types/ui';
 import { getNewCard } from '@/utils/cards';
 
 type ContextValueType = {

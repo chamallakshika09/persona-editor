@@ -1,7 +1,7 @@
 import { CardData, ColumnType } from '@/types/ui';
 import AddCardMenu from './AddCardMenu';
 import CardFactory from './CardFactory';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 interface CardColumnProps {
   cards: CardData[];
@@ -9,8 +9,6 @@ interface CardColumnProps {
 }
 
 function CardColumn({ cards, column }: CardColumnProps) {
-  console.log('CardColumn', column);
-
   return (
     <>
       {cards.map((card) => (

@@ -9,7 +9,6 @@ interface CardFactoryProps {
 }
 
 function CardFactory({ card, column }: CardFactoryProps) {
-  console.log('CardFactory');
   switch (card.type) {
     case 'text':
       return <TextCard key={card.id} card={card} column={column} />;

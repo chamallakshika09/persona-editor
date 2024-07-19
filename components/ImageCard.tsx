@@ -16,7 +16,6 @@ interface ImageCardProps {
 }
 
 function ImageCard({ card, column }: ImageCardProps) {
-  console.log('ImageCard');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -32,7 +31,7 @@ function ImageCard({ card, column }: ImageCardProps) {
         setRightColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
       }
     },
-    [card, column, setLeftColumnCards, setRightColumnCards]
+    [card.id, column, setLeftColumnCards, setRightColumnCards]
   );
 
   const handleImageUpload = async () => {
