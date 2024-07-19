@@ -1,18 +1,39 @@
 'use client';
 
-import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
+import { useState, useRef, useEffect, useCallback, memo } from 'react';
+import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
-import { useState, useRef } from 'react';
 import Image from 'next/image';
-import { PutBlobResult } from '@vercel/blob';
 import { upload } from '@vercel/blob/client';
 import Spinner from './Spinner';
+import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
+import { CardData, ColumnType } from '@/types/ui';
+import { usePersona } from '@/contexts/PersonaContext';
 
-export default function ImageCard() {
+interface ImageCardProps {
+  card: CardData;
+  column: ColumnType;
+}
+
+function ImageCard({ card, column }: ImageCardProps) {
+  console.log('ImageCard');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [blob, setBlob] = useState<PutBlobResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const { setLeftColumnCards, setRightColumnCards } = usePersona();
+
+  const updateCardContent = useCallback(
+    (content: string) => {
+      const id = card.id;
+      if (column === 'left') {
+        setLeftColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
+      } else {
+        setRightColumnCards((prevCards) => prevCards.map((card) => (card.id === id ? { ...card, content } : card)));
+      }
+    },
+    [card, column, setLeftColumnCards, setRightColumnCards]
+  );
 
   const handleImageUpload = async () => {
     setError(null);
@@ -36,7 +57,7 @@ export default function ImageCard() {
         access: 'public',
         handleUploadUrl: '/api/image/upload',
       });
-      setBlob(newBlob);
+      updateCardContent(newBlob.url);
     } catch (uploadError) {
       setError(`Failed to upload image: ${uploadError}`);
     } finally {
@@ -50,9 +71,9 @@ export default function ImageCard() {
 
   return (
     <Card height="h-[200px]">
-      {blob ? (
+      {card.content ? (
         <div className="relative w-full h-full">
-          <Image src={blob.url} alt="Uploaded" layout="fill" objectFit="contain" />
+          <Image src={card.content} alt="Uploaded" layout="fill" objectFit="contain" />
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center h-full gap-2">
@@ -73,3 +94,5 @@ export default function ImageCard() {
     </Card>
   );
 }
+
+export default memo(ImageCard);
