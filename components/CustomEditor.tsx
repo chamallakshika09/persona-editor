@@ -1,45 +1,23 @@
 import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic';
+import { useEffect, useRef } from 'react';
+import { QuillBinding } from 'y-quill';
+import Quill from 'quill';
+import { initYjs } from '@/libs/yjsInstance';
+import QuillCursors from 'quill-cursors';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+Quill.register('modules/cursors', QuillCursors);
 
-// const CustomToolbar = () => (
-//   <div id="toolbar">
-//     <select className="ql-header" defaultValue={''} onChange={(e) => e.persist()}>
-//       <option value="1">Heading 1</option>
-//       <option value="2">Heading 2</option>
-//       <option value="">Normal</option>
-//     </select>
-//     <button className="ql-bold" />
-//     <button className="ql-italic" />
-//     <button className="ql-underline" />
-//     <button className="ql-strike" />
-//     <button className="ql-list" value="ordered" />
-//     <button className="ql-list" value="bullet" />
-//     <button className="ql-align" />
-//     <button className="ql-link" />
-//     <button className="ql-clean" />
-//   </div>
-// );
+export default function CustomEditor() {
+  const editorContainerRef = useRef<HTMLDivElement | null>(null);
 
-interface CustomEditorProps {
-  text: string;
-  handleTextChange: (text: string) => void;
-}
+  useEffect(() => {
+    const { ydoc, provider } = initYjs();
+    const yText = ydoc.getText('quill');
 
-export default function CustomEditor({ text, handleTextChange }: CustomEditorProps) {
-  return (
-    <>
-      {/* <CustomToolbar /> */}
-      <ReactQuill
-        value={text}
-        onChange={handleTextChange}
-        // modules={{
-        //   toolbar: {
-        //     container: '#toolbar',
-        //   },
-        // }}
-        modules={{
+    if (editorContainerRef.current) {
+      const quill = new Quill(editorContainerRef.current, {
+        modules: {
+          cursors: true,
           toolbar: [
             [{ header: '1' }, { header: '2' }],
             [{ size: [] }],
@@ -49,22 +27,19 @@ export default function CustomEditor({ text, handleTextChange }: CustomEditorPro
             ['link'],
             ['clean'],
           ],
-        }}
-        formats={[
-          'header',
-          'size',
-          'font',
-          'list',
-          'bullet',
-          'bold',
-          'italic',
-          'underline',
-          'strike',
-          'blockquote',
-          'align',
-          'link',
-        ]}
-      />
-    </>
-  );
+        },
+        theme: 'snow',
+      });
+
+      const binding = new QuillBinding(yText, quill, provider.awareness);
+
+      return () => {
+        binding.destroy();
+        const toolbars = document.querySelectorAll('.ql-toolbar');
+        toolbars.forEach((toolbar) => toolbar.remove());
+      };
+    }
+  }, []);
+
+  return <div id="editor" ref={editorContainerRef} />;
 }
