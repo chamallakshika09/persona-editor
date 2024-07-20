@@ -19,11 +19,11 @@ export default function CustomEditor() {
         modules: {
           cursors: true,
           toolbar: [
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ header: '1' }, { header: '2' }],
             [{ size: [] }],
             [{ list: 'ordered' }, { list: 'bullet' }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ align: [] }],
+            [{ color: [] }, { background: [] }],
             ['link'],
             ['clean'],
           ],
