@@ -1,7 +1,6 @@
-import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
+import { ColumnCardData, ColumnType } from '@/types/ui';
 import AddCardMenu from './AddCardMenu';
 import CardFactory from './CardFactory';
-import { memo } from 'react';
 
 interface CardColumnProps {
   cards: ColumnCardData[];

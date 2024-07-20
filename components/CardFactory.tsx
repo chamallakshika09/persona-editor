@@ -1,4 +1,4 @@
-import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
+import { ColumnCardData, ColumnType } from '@/types/ui';
 import TextCard from './TextCard';
 import ImageCard from './ImageCard';
 import { memo } from 'react';

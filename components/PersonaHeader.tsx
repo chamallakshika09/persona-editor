@@ -25,8 +25,6 @@ export default function PersonaHeader() {
     setIsModalOpen(false);
   };
 
-  console.log(selectedAvatar, selectedColor, name);
-
   return (
     <div className="flex items-center p-4 rounded-lg gap-4 relative">
       <PersonaBadge

@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback, memo } from 'react';
+import { useState, useRef, memo } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
 import Image from 'next/image';
 import { upload } from '@vercel/blob/client';
 import Spinner from './Spinner';
 import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
-import { CardData, ColumnCardData, ColumnType } from '@/types/ui';
+import { ColumnCardData, ColumnType } from '@/types/ui';
 import { useY } from 'react-yjs';
 import { yGetCardsForColumn } from '@/libs/yjsInstance';
 

@@ -4,12 +4,8 @@ import NameCard from './NameCard';
 import CardColumn from './CardColumn';
 import { useY } from 'react-yjs';
 import { yLeftColumnCards, yRightColumnCards } from '@/libs/yjsInstance';
-import { convertObjArrToCardDataArr } from '@/utils/cards';
 
 export default function PersonaContent() {
-  // const leftColumnCards = convertObjArrToCardDataArr(useY(yLeftColumnCards));
-  // const rightColumnCards = convertObjArrToCardDataArr(useY(yRightColumnCards));
-
   const leftColumnCards = useY(yLeftColumnCards);
   const rightColumnCards = useY(yRightColumnCards);
 
