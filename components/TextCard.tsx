@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
 import CustomEditor from './CustomEditor';
 
