@@ -6,11 +6,13 @@ import { usePersona } from '@/contexts/PersonaContext';
 export default function NameCard() {
   const { name, selectedAvatar, selectedColor } = usePersona();
 
+  const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === selectedAvatar);
+
   return (
     <Card height="h-auto">
       <div className="flex gap-2 p-3">
         <PersonaBadge
-          icon={PERSONA_ICONS.find((icon) => icon.name === selectedAvatar)!.icon}
+          icon={foundAvatar?.icon}
           height="h-[48px]"
           divClasses="rounded-lg w-16 h-16 p-2"
           bgColor={selectedColor}
