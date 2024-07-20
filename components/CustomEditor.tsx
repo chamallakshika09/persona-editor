@@ -34,11 +34,6 @@ export default function CustomEditor({ text, handleTextChange }: CustomEditorPro
       <ReactQuill
         value={text}
         onChange={handleTextChange}
-        // modules={{
-        //   toolbar: {
-        //     container: '#toolbar',
-        //   },
-        // }}
         modules={{
           toolbar: [
             [{ header: '1' }, { header: '2' }],

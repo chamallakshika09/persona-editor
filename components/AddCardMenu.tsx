@@ -4,6 +4,7 @@ import ImageCardIcon from '@/assets/icons/ImageCard.icon';
 import TextCardIcon from '@/assets/icons/TextCard.icon';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { CardData, CardType } from '@/types/ui';
+import { getNewCard } from '@/utils/cards';
 import { useRef, useState } from 'react';
 
 interface AddCardMenuProps {
@@ -17,7 +18,8 @@ export default function AddCardMenu({ cards, setCards }: AddCardMenuProps) {
   const openButtonRef = useRef<HTMLDivElement>(null);
 
   const addCard = (type: CardType) => {
-    setCards([...cards, { id: Date.now(), type }]);
+    const newCard: CardData = getNewCard(type);
+    setCards([...cards, newCard]);
   };
 
   useOutsideClick(openButtonRef, () => setIsMenuOpen(false));
