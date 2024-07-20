@@ -20,6 +20,8 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
   const [localAvatar, setLocalAvatar] = useState(selectedAvatar);
   const [localColor, setLocalColor] = useState(selectedColor);
 
+  const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === localAvatar);
+
   const handleSave = () => {
     setName(localName);
     setSelectedAvatar(localAvatar);
@@ -41,7 +43,7 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
 
           <div className="flex gap-6 items-end">
             <PersonaBadge
-              icon={PERSONA_ICONS.find((icon) => icon.name === localAvatar)!.icon}
+              icon={foundAvatar?.icon}
               height="h-[48px]"
               divClasses="rounded-xl w-[80px] h-[80px] p-3"
               bgColor={localColor}

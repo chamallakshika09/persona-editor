@@ -9,6 +9,7 @@ import PencilIcon from '@/assets/icons/Pencil.icon';
 
 export default function PersonaHeader() {
   const { name, selectedAvatar, selectedColor } = usePersona();
+  const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === selectedAvatar);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,7 +24,7 @@ export default function PersonaHeader() {
   return (
     <div className="flex items-center p-4 rounded-lg gap-4 relative">
       <PersonaBadge
-        icon={PERSONA_ICONS.find((icon) => icon.name === selectedAvatar)!.icon}
+        icon={foundAvatar?.icon}
         height="h-[25px]"
         divClasses="rounded-md w-10 h-10 p-1.5"
         bgColor={selectedColor}
