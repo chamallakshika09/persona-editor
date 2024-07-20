@@ -1,20 +1,27 @@
-import 'react-quill/dist/quill.snow.css';
-import dynamic from 'next/dynamic';
+import { useEffect, useRef } from 'react';
+import { QuillBinding } from 'y-quill';
+import Quill from 'quill';
+import QuillCursors from 'quill-cursors';
+import { getProvider } from '@/libs/yjsInstance';
+import * as Y from 'yjs';
 
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+Quill.register('modules/cursors', QuillCursors);
 
 interface CustomEditorProps {
-  text: string;
-  handleTextChange: (text: string) => void;
+  xContent: Y.Text;
+  setQuill: (quill: any) => void;
 }
 
-export default function CustomEditor({ text, handleTextChange }: CustomEditorProps) {
-  return (
-    <>
-      <ReactQuill
-        value={text}
-        onChange={handleTextChange}
-        modules={{
+export default function CustomEditor({ xContent, setQuill }: CustomEditorProps) {
+  const editorContainerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const provider = getProvider();
+
+    if (editorContainerRef.current) {
+      const quill = new Quill(editorContainerRef.current, {
+        modules: {
+          cursors: true,
           toolbar: [
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ header: '1' }, { header: '2' }],
@@ -24,23 +31,21 @@ export default function CustomEditor({ text, handleTextChange }: CustomEditorPro
             ['link'],
             ['clean'],
           ],
-        }}
-        formats={[
-          'bold',
-          'italic',
-          'underline',
-          'strike',
-          'blockquote',
-          'header',
-          'size',
-          'list',
-          'bullet',
-          'color',
-          'background',
-          'link',
-          'clean',
-        ]}
-      />
-    </>
-  );
+        },
+        theme: 'snow',
+      });
+
+      const binding = new QuillBinding(xContent, quill, provider.awareness);
+
+      setQuill(quill);
+
+      return () => {
+        binding.destroy();
+        const toolbars = document.querySelectorAll('.ql-toolbar');
+        toolbars.forEach((toolbar) => toolbar.remove());
+      };
+    }
+  }, []);
+
+  return <div id="editor" ref={editorContainerRef} />;
 }

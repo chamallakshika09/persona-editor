@@ -11,9 +11,9 @@ interface CardFactoryProps {
 function CardFactory({ card, column }: CardFactoryProps) {
   switch (card.type) {
     case 'text':
-      return <TextCard key={card.id.toString()} card={card} column={column} />;
+      return <TextCard key={card.id.toString()} cardId={card.id.toString()} column={column} />;
     case 'image':
-      return <ImageCard key={card.id.toString()} card={card} column={column} />;
+      return <ImageCard key={card.id.toString()} cardId={card.id.toString()} column={column} />;
     default:
       return null;
   }

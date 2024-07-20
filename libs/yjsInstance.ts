@@ -58,6 +58,7 @@ export const initializeYjs = () => {
 };
 
 const getYDoc = () => initializeYjs();
+export const getProvider = () => provider;
 
 const yName = getYDoc().getText('name');
 

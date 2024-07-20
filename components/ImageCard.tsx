@@ -12,18 +12,18 @@ import { useY } from 'react-yjs';
 import { yGetCardsForColumn } from '@/libs/yjsInstance';
 
 interface ImageCardProps {
-  card: ColumnCardData;
+  cardId: string;
   column: ColumnType;
 }
 
-function ImageCard({ card, column }: ImageCardProps) {
+function ImageCard({ cardId, column }: ImageCardProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const cards = yGetCardsForColumn(column).toArray();
 
-  const cardIndex = cards.findIndex((c) => c.get('id') === card.id);
+  const cardIndex = cards.findIndex((c) => c.get('id') === cardId);
 
   const xContent = cards[cardIndex].get('content');
 
