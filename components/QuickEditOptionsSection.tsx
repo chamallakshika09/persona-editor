@@ -26,7 +26,7 @@ export default function QuickEditOptionsSection<T extends string | { name: strin
             key={typeof icon === 'string' ? icon : icon.name}
             onClick={() => setSelectedIcon(typeof icon === 'string' ? icon : icon.name)}
             className={`p-1 rounded-md w-10 h-10 flex items-center justify-center ${buttonClasses} ${
-              selectedIcon === icon ? 'border-2 border-black' : ''
+              selectedIcon === (typeof icon === 'string' ? icon : icon.name) ? 'border-2 border-black' : ''
             }`}
             style={iconStyle ? iconStyle(icon) : undefined}
           >
