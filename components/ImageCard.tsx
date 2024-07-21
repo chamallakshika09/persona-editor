@@ -1,5 +1,3 @@
-'use client';
-
 import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
 import Card from './Card';
 import { useState, useRef } from 'react';
