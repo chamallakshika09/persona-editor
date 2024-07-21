@@ -1,10 +1,8 @@
-'use client';
-
 import { useState, useRef, memo, useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { ColumnCardData, ColumnType } from '@/types/ui';
+import { ColumnType } from '@/types/ui';
 import HtmlRenderer from './HtmlRenderer';
 import { useY } from 'react-yjs';
 import { yGetCardsForColumn } from '@/libs/yjsInstance';

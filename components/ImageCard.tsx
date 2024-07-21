@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useRef, memo } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
