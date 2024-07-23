@@ -5,12 +5,12 @@ import QuickEditButton from './QuickEditButton';
 import PersonaBadge from './PersonaBadge';
 
 import { useY } from 'react-yjs';
-import { yName, ySelectedAvatar, ySelectedColor } from '@/libs/yjsInstance';
+import { yName, ySelectedAvatar, ySelectedColor } from '@/libs/yjs/yjsInstance';
 
 export default function PersonaHeader() {
-  const name = useY(yName).toString();
-  const selectedAvatar = useY(ySelectedAvatar).toString();
-  const selectedColor = useY(ySelectedColor).toString();
+  const name = useY(yName()).toString();
+  const selectedAvatar = useY(ySelectedAvatar()).toString();
+  const selectedColor = useY(ySelectedColor()).toString();
 
   const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === selectedAvatar);
 

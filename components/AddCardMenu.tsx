@@ -3,7 +3,7 @@ import ArrowDownIcon from '@/assets/icons/ArrowDown.icon';
 import ImageCardIcon from '@/assets/icons/ImageCard.icon';
 import TextCardIcon from '@/assets/icons/TextCard.icon';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { yAddCard } from '@/libs/yjsInstance';
+import { yAddCard } from '@/libs/yjs/yjsInstance';
 import { CardType, ColumnType } from '@/types/ui';
 import { getNewCard } from '@/utils/cards';
 import { useRef, useState } from 'react';

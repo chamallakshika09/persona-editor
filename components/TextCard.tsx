@@ -5,7 +5,7 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import { ColumnType } from '@/types/ui';
 import HtmlRenderer from './HtmlRenderer';
 import { useY } from 'react-yjs';
-import { yGetCardsForColumn } from '@/libs/yjsInstance';
+import { yGetCardsForColumn } from '@/libs/yjs/yjsInstance';
 import dynamic from 'next/dynamic';
 const CustomEditor = dynamic(() => import('./CustomEditor'), { ssr: false });
 

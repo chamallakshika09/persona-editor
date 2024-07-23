@@ -1,10 +1,24 @@
+'use client';
 import Header from '@/components/Header';
+import Loader from '@/components/Loader';
 import PersonaContent from '@/components/PersonaContent';
 import PersonaHeader from '@/components/PersonaHeader';
-import { initializeYjs } from '@/libs/yjsInstance';
+
+import { initializeYjs } from '@/libs/yjs/yjsInstance';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  initializeYjs();
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    initializeYjs(() => {
+      setIsInitialized(true);
+    });
+  }, []);
+
+  if (!isInitialized) {
+    return <Loader />;
+  }
 
   return (
     <div className="bg-background min-h-screen">

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { QuillBinding } from 'y-quill';
 import Quill from 'quill';
 import QuillCursors from 'quill-cursors';
-import { getProvider } from '@/libs/yjsInstance';
+import { getProvider } from '@/libs/yjs/yjsInstance';
 import * as Y from 'yjs';
 
 Quill.register('modules/cursors', QuillCursors);

@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { upload } from '@vercel/blob/client';
 import Spinner from './Spinner';
 import ImageSelectorIcon from '@/assets/icons/ImageSelector.icon';
-import { ColumnCardData, ColumnType } from '@/types/ui';
+import { ColumnType } from '@/types/ui';
 import { useY } from 'react-yjs';
-import { yGetCardsForColumn } from '@/libs/yjsInstance';
+import { yGetCardsForColumn } from '@/libs/yjs/yjsInstance';
 
 interface ImageCardProps {
   cardId: string;

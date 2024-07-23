@@ -3,11 +3,11 @@
 import NameCard from './NameCard';
 import CardColumn from './CardColumn';
 import { useY } from 'react-yjs';
-import { yLeftColumnCards, yRightColumnCards } from '@/libs/yjsInstance';
+import { yLeftColumnCards, yRightColumnCards } from '@/libs/yjs/yjsInstance';
 
 export default function PersonaContent() {
-  const leftColumnCards = useY(yLeftColumnCards);
-  const rightColumnCards = useY(yRightColumnCards);
+  const leftColumnCards = useY(yLeftColumnCards());
+  const rightColumnCards = useY(yRightColumnCards());
 
   return (
     <div className="bg-[#F3EEEC] w-full flex flex-row">

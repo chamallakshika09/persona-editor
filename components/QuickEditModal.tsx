@@ -12,7 +12,7 @@ import {
   ySetName,
   ySetSelectedAvatar,
   ySetSelectedColor,
-} from '@/libs/yjsInstance';
+} from '@/libs/yjs/yjsInstance';
 import Modal from './Modal';
 import QuickEditOptionsSection from './QuickEditOptionsSection';
 
@@ -21,9 +21,9 @@ interface QuickEditModalProps {
 }
 
 export default function QuickEditModal({ onClose }: QuickEditModalProps) {
-  const name = useY(yName).toString();
-  const selectedAvatar = useY(ySelectedAvatar).toString();
-  const selectedColor = useY(ySelectedColor).toString();
+  const name = useY(yName()).toString();
+  const selectedAvatar = useY(ySelectedAvatar()).toString();
+  const selectedColor = useY(ySelectedColor()).toString();
 
   const [localName, setLocalName] = useState(name);
   const [localAvatar, setLocalAvatar] = useState(selectedAvatar);
