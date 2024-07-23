@@ -3,8 +3,9 @@ import Card from './Card';
 import PersonaBadge from './PersonaBadge';
 import { useY } from 'react-yjs';
 import { yName, ySelectedAvatar, ySelectedColor } from '@/libs/yjs/yjsInstance';
+import { memo } from 'react';
 
-export default function NameCard() {
+function NameCard() {
   const name = useY(yName()).toString();
   const selectedAvatar = useY(ySelectedAvatar()).toString();
   const selectedColor = useY(ySelectedColor()).toString();
@@ -28,3 +29,5 @@ export default function NameCard() {
     </Card>
   );
 }
+
+export default memo(NameCard);

@@ -1,3 +1,6 @@
+import { IconType } from '@/types/ui';
+import React, { memo } from 'react';
+
 interface QuickEditOptionsSectionProps<T> {
   label: string;
   icons: T[];
@@ -8,7 +11,7 @@ interface QuickEditOptionsSectionProps<T> {
   buttonClasses?: string;
 }
 
-export default function QuickEditOptionsSection<T extends string | { name: string }>({
+function QuickEditOptionsSection<T extends IconType | string>({
   label,
   icons,
   selectedIcon,
@@ -37,3 +40,5 @@ export default function QuickEditOptionsSection<T extends string | { name: strin
     </>
   );
 }
+
+export default memo(QuickEditOptionsSection);

@@ -1,10 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import SvgIcon from './SvgIcon';
 import { PERSONA_ICONS } from '@/assets/PersonaIcons';
 import PersonaBadge from './PersonaBadge';
 import CheckIcon from '@/assets/icons/Check.icon';
 import { colors } from '@/data/colors';
-import { useY } from 'react-yjs';
 import {
   yName,
   ySelectedAvatar,
@@ -15,19 +14,16 @@ import {
 } from '@/libs/yjs/yjsInstance';
 import Modal from './Modal';
 import QuickEditOptionsSection from './QuickEditOptionsSection';
+import { IconType } from '@/types/ui';
 
 interface QuickEditModalProps {
   onClose: () => void;
 }
 
 export default function QuickEditModal({ onClose }: QuickEditModalProps) {
-  const name = useY(yName()).toString();
-  const selectedAvatar = useY(ySelectedAvatar()).toString();
-  const selectedColor = useY(ySelectedColor()).toString();
-
-  const [localName, setLocalName] = useState(name);
-  const [localAvatar, setLocalAvatar] = useState(selectedAvatar);
-  const [localColor, setLocalColor] = useState(selectedColor);
+  const [localName, setLocalName] = useState(yName().toString());
+  const [localAvatar, setLocalAvatar] = useState(ySelectedAvatar().toString());
+  const [localColor, setLocalColor] = useState(ySelectedColor().toString());
 
   const foundAvatar = PERSONA_ICONS.find((icon) => icon.name === localAvatar);
 
@@ -36,6 +32,11 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
     ySetSelectedAvatar(localAvatar);
     ySetSelectedColor(localColor);
     onClose();
+  };
+
+  // Type guard to check if the icon is IconType
+  const isIconType = (icon: any): icon is IconType => {
+    return (icon as IconType).icon !== undefined;
   };
 
   return (
@@ -68,7 +69,10 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
           icons={PERSONA_ICONS}
           selectedIcon={localAvatar}
           setSelectedIcon={setLocalAvatar}
-          iconRenderer={(avatar) => <SvgIcon icon={avatar.icon} className="h-[25px] w-[auto]" />}
+          iconRenderer={useCallback(
+            (avatar) => (isIconType(avatar) ? <SvgIcon icon={avatar.icon} className="h-[25px] w-[auto]" /> : null),
+            []
+          )}
           buttonClasses="bg-[#F5F5F5]"
         />
 
@@ -77,8 +81,13 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
           icons={colors}
           selectedIcon={localColor}
           setSelectedIcon={setLocalColor}
-          iconRenderer={(color) => (localColor === color ? <CheckIcon /> : null)}
-          iconStyle={(color) => ({ backgroundColor: color })}
+          iconRenderer={useCallback((color) => (localColor === color ? <CheckIcon /> : null), [localColor])}
+          iconStyle={useCallback((color: string | IconType) => {
+            if (typeof color === 'string') {
+              return { backgroundColor: color };
+            }
+            return {};
+          }, [])}
         />
       </Modal.Content>
       <hr className="border-[#E6E6E6]" />

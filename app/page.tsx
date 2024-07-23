@@ -1,4 +1,5 @@
 'use client';
+
 import Header from '@/components/Header';
 import Loader from '@/components/Loader';
 import PersonaContent from '@/components/PersonaContent';

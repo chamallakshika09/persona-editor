@@ -6,13 +6,13 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import { yAddCard } from '@/libs/yjs/yjsInstance';
 import { CardType, ColumnType } from '@/types/ui';
 import { getNewCard } from '@/utils/cards';
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
 interface AddCardMenuProps {
   column: ColumnType;
 }
 
-export default function AddCardMenu({ column }: AddCardMenuProps) {
+function AddCardMenu({ column }: AddCardMenuProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const openButtonRef = useRef<HTMLDivElement>(null);
@@ -55,3 +55,5 @@ export default function AddCardMenu({ column }: AddCardMenuProps) {
     </div>
   );
 }
+
+export default memo(AddCardMenu);

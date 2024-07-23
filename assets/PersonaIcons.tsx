@@ -1,6 +1,7 @@
+import { IconType } from '@/types/ui';
 import React from 'react';
 
-export const PERSONA_ICONS: Array<{ name: string; icon: React.ReactNode }> = [
+export const PERSONA_ICONS: Array<IconType> = [
   {
     name: 'no_avatar',
     icon: (

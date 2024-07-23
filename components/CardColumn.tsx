@@ -1,13 +1,14 @@
 import { ColumnCardData, ColumnType } from '@/types/ui';
 import AddCardMenu from './AddCardMenu';
 import CardFactory from './CardFactory';
+import { memo } from 'react';
 
 interface CardColumnProps {
   cards: ColumnCardData[];
   column: ColumnType;
 }
 
-export default function CardColumn({ cards, column }: CardColumnProps) {
+function CardColumn({ cards, column }: CardColumnProps) {
   return (
     <>
       {cards.map((card) => (
@@ -17,3 +18,5 @@ export default function CardColumn({ cards, column }: CardColumnProps) {
     </>
   );
 }
+
+export default memo(CardColumn);

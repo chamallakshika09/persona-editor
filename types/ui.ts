@@ -13,3 +13,5 @@ export interface ColumnCardData {
 }
 
 export type ColumnType = 'left' | 'right';
+
+export type IconType = { name: string; icon: React.ReactNode };
