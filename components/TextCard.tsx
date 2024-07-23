@@ -1,12 +1,13 @@
-import { useState, useRef, memo, useEffect } from 'react';
-import 'react-quill/dist/quill.snow.css';
+import { useState, useRef, memo } from 'react';
 import Card from './Card';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { ColumnType } from '@/types/ui';
 import HtmlRenderer from './HtmlRenderer';
-import { useY } from 'react-yjs';
 import { yGetCardsForColumn } from '@/libs/yjs/yjsInstance';
 import dynamic from 'next/dynamic';
+import 'react-quill/dist/quill.snow.css';
+import { convertDeltaToHtml } from '@/utils/conversions';
+
 const CustomEditor = dynamic(() => import('./CustomEditor'), { ssr: false });
 
 interface TextCardProps {
@@ -22,18 +23,9 @@ function TextCard({ cardId, column }: TextCardProps) {
 
   const cardIndex = cards.findIndex((c) => c.get('id') === cardId);
 
-  const xContent = cards[cardIndex].get('content');
+  const content = cards[cardIndex].get('content');
 
-  const displayContent = useY(xContent);
-
-  const [text, setText] = useState<string>(displayContent.toString());
-  const [quill, setQuill] = useState<any>(null);
-
-  useEffect(() => {
-    if (quill && !isEditing) {
-      setText(quill.root.innerHTML);
-    }
-  }, [isEditing, quill]);
+  const text = convertDeltaToHtml(content.toDelta());
 
   useOutsideClick(editorRef, () => setIsEditing(false));
 
@@ -41,9 +33,9 @@ function TextCard({ cardId, column }: TextCardProps) {
     <Card height="h-auto" border={isEditing}>
       <div className="flex flex-col p-3 justify-center" onClick={() => setIsEditing(true)} ref={editorRef}>
         {isEditing ? (
-          <CustomEditor xContent={xContent} setQuill={setQuill} />
+          <CustomEditor initialContent={content} />
         ) : (
-          <div className="text-sm text-textSecondary">
+          <div className="text-sm text-textSecondary overflow-auto">
             <HtmlRenderer htmlString={text} />
           </div>
         )}

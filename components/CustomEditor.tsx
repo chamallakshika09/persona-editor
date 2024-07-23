@@ -8,11 +8,10 @@ import * as Y from 'yjs';
 Quill.register('modules/cursors', QuillCursors);
 
 interface CustomEditorProps {
-  xContent: Y.Text;
-  setQuill: (quill: any) => void;
+  initialContent: Y.Text;
 }
 
-export default function CustomEditor({ xContent, setQuill }: CustomEditorProps) {
+export default function CustomEditor({ initialContent }: CustomEditorProps) {
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -35,9 +34,9 @@ export default function CustomEditor({ xContent, setQuill }: CustomEditorProps) 
         theme: 'snow',
       });
 
-      const binding = new QuillBinding(xContent, quill, provider.awareness);
+      quill.setContents(initialContent.toDelta(), 'silent');
 
-      setQuill(quill);
+      const binding = new QuillBinding(initialContent, quill, provider.awareness);
 
       return () => {
         binding.destroy();
