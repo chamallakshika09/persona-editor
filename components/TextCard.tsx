@@ -1,30 +1,38 @@
-import { useState, useRef, useEffect } from 'react';
-import 'react-quill/dist/quill.snow.css';
+import { useState, useRef, useMemo } from 'react';
 import Card from './Card';
 import dynamic from 'next/dynamic';
 import useOutsideClick from '@/hooks/useOutsideClick';
-import { initYjs } from '@/libs/yjsInstance';
-import { useY } from 'react-yjs';
 import HtmlRenderer from './HtmlRenderer';
+import { getYDoc } from '@/libs/yjs/yjsInstance';
+import { convertDeltaToHtml } from '@/utils/conversions';
+import { useY } from 'react-yjs';
 
 const CustomEditor = dynamic(() => import('./CustomEditor'), { ssr: false });
 
-const { ydoc } = initYjs();
-const yText = ydoc.getText('quill');
+const initialCardDelta = [
+  {
+    insert: 'Complete your persona',
+  },
+  {
+    insert: '\n',
+    attributes: {
+      header: 1,
+    },
+  },
+  {
+    insert: 'You could start by adding some demographic information, needs, frustrations, etc.',
+  },
+];
 
 export default function TextCard() {
-  const [text, setText] = useState(`
-  <h1 class="text-base font-semibold text-textPrimary">Complete your persona</h1>
-  <p class="text-sm text-textSecondary">You could start by adding some demographic information, needs, frustrations, etc.</p>
-`);
   const [isEditing, setIsEditing] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
 
-  const yTextContent = useY(yText);
+  const yText = getYDoc().getText('quill');
 
-  useEffect(() => {
-    isEditing && setText(yTextContent.toString());
-  }, [isEditing, yTextContent]);
+  const yTextLength = useY(yText).toString().length;
+
+  const text = convertDeltaToHtml(yTextLength > 0 ? yText.toDelta() : initialCardDelta);
 
   useOutsideClick(editorRef, () => setIsEditing(false));
 
@@ -34,7 +42,7 @@ export default function TextCard() {
         {isEditing ? (
           <CustomEditor />
         ) : (
-          <div className="text-sm text-textSecondary">
+          <div className="text-sm text-textSecondary overflow-auto">
             <HtmlRenderer htmlString={text} />
           </div>
         )}

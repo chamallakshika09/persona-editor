@@ -2,8 +2,8 @@ import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef } from 'react';
 import { QuillBinding } from 'y-quill';
 import Quill from 'quill';
-import { initYjs } from '@/libs/yjsInstance';
 import QuillCursors from 'quill-cursors';
+import { getProvider, getYDoc } from '@/libs/yjs/yjsInstance';
 
 Quill.register('modules/cursors', QuillCursors);
 
@@ -11,8 +11,7 @@ export default function CustomEditor() {
   const editorContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const { ydoc, provider } = initYjs();
-    const yText = ydoc.getText('quill');
+    const yText = getYDoc().getText('quill');
 
     if (editorContainerRef.current) {
       const quill = new Quill(editorContainerRef.current, {
@@ -31,7 +30,9 @@ export default function CustomEditor() {
         theme: 'snow',
       });
 
-      const binding = new QuillBinding(yText, quill, provider.awareness);
+      quill.setContents(yText.toDelta(), 'silent');
+
+      const binding = new QuillBinding(yText, quill, getProvider().awareness);
 
       return () => {
         binding.destroy();
