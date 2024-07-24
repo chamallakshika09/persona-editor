@@ -1,4 +1,4 @@
-import { useState, useRef, memo } from 'react';
+import { useState, useRef, memo, useEffect } from 'react';
 import Card from './Card';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { ColumnType } from '@/types/ui';
@@ -7,6 +7,7 @@ import { yGetCardsForColumn } from '@/libs/yjs/yjsInstance';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 import { convertDeltaToHtml } from '@/utils/conversions';
+import { YTextEvent } from 'yjs';
 
 const CustomEditor = dynamic(() => import('./CustomEditor'), { ssr: false });
 
@@ -25,7 +26,19 @@ function TextCard({ cardId, column }: TextCardProps) {
 
   const content = cards[cardIndex].get('content');
 
-  const text = convertDeltaToHtml(content.toDelta());
+  const [text, setText] = useState(convertDeltaToHtml(content.toDelta()));
+
+  useEffect(() => {
+    const updateEvent = (event: YTextEvent) => {
+      setText(convertDeltaToHtml(event.target.toDelta()));
+    };
+
+    content.observe(updateEvent);
+
+    return () => {
+      content.unobserve(updateEvent);
+    };
+  }, [content]);
 
   useOutsideClick(editorRef, () => setIsEditing(false));
 
