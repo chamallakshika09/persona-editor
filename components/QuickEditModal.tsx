@@ -59,7 +59,7 @@ export default function QuickEditModal({ onClose }: QuickEditModalProps) {
               id="name"
               value={localName}
               onChange={(e) => setLocalName(e.target.value)}
-              className="h-full border-[#E6E6E6] border-[1.5px] rounded-md text-[#101010] p-3 flex-grow"
+              className="h-full border-[#E6E6E6] border-[1.5px] rounded-md text-[#101010] p-3 flex-grow max-w-[240px]"
             />
           </div>
         </div>
