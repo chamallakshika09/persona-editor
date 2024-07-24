@@ -1,4 +1,4 @@
-import 'react-quill/dist/quill.snow.css';
+import 'quill/dist/quill.snow.css';
 import { useEffect, useRef } from 'react';
 import { QuillBinding } from 'y-quill';
 import Quill from 'quill';
