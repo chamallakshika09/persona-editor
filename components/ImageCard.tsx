@@ -1,5 +1,4 @@
 import { useState, useRef, memo } from 'react';
-import 'react-quill/dist/quill.snow.css';
 import Card from './Card';
 import Image from 'next/image';
 import { upload } from '@vercel/blob/client';

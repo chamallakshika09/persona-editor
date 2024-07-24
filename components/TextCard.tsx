@@ -5,7 +5,6 @@ import { ColumnType } from '@/types/ui';
 import HtmlRenderer from './HtmlRenderer';
 import { yGetCardsForColumn } from '@/libs/yjs/yjsInstance';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
 import { convertDeltaToHtml } from '@/utils/conversions';
 import { YTextEvent } from 'yjs';
 

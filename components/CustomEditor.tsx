@@ -4,6 +4,7 @@ import Quill from 'quill';
 import QuillCursors from 'quill-cursors';
 import { getProvider } from '@/libs/yjs/yjsInstance';
 import * as Y from 'yjs';
+import 'quill/dist/quill.snow.css';
 
 Quill.register('modules/cursors', QuillCursors);
 
